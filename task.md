@@ -1,0 +1,26 @@
+# FL-01 Tasks
+
+- [x] Create task list tracking artifact (`task.md`)
+- [x] Write comprehensive `workflow_audit.md` inside `c:\Users\hussa\Desktop\ml\`
+  - [x] Define the 12-task audit table with classification and rationales
+  - [x] Add at least two "just me" tasks with honest reasons
+  - [x] Define custom instructions for Claude Project
+  - [x] Pick three target tasks for FL-02 through FL-04 with success definitions
+  - [x] Add verification templates/checklists for ChatGPT, Claude, and Anthropic Academy accounts
+- [x] Add placeholder and instructions for Claude Project screenshot
+- [x] Verify the content, layout, and visual formatting of `workflow_audit.md`
+- [x] Create the walkthrough artifact (`walkthrough.md`)
+- [x] Write comprehensive `portfolio_sitemap.md` inside `c:\Users\hussa\Desktop\ml\`
+  - [x] Define the portfolio claim and target action
+  - [x] Design the minimal sitemap (Mermaid layout)
+  - [x] Draft Claude Project custom instructions (Tutor mode + Proof statement)
+  - [x] Document the pressure-test prompt and tutor's response
+  - [x] State at least one revision based on the pressure test
+  - [x] Include verification list for Claude, ChatGPT, Gemini, and Perplexity
+- [x] Run the starter ML repository pipeline
+  - [x] Initialize git and clone template repository to `c:\Users\hussa\Desktop\ml\`
+  - [x] Install dependencies in `requirements.txt`
+  - [x] Execute `notebooks/01_first_look_and_discovery.ipynb` and resolve exercise
+  - [x] Execute `notebooks/02_your_first_readable_model.ipynb` and resolve exercise
+  - [x] Run scripts/run_all.py to verify
+  - [x] Save executed notebooks with outputs
