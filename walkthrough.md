@@ -1,6 +1,6 @@
 # Walkthrough - FL-01 Workflow Audit & Setup
 
-This walkthrough summarizes the work completed for Phase FL-01 (Setup).
+This walkthrough summarizes the work completed for Phase FL-01 (Setup) and the Research Question Framing.
 
 ## Changes Made
 
@@ -18,7 +18,12 @@ This walkthrough summarizes the work completed for Phase FL-01 (Setup).
      * **[02_your_first_readable_model.ipynb](file:///c:/Users/hussa/Desktop/ml/notebooks/02_your_first_readable_model.ipynb)**: Executed top-to-bottom; solved the "Your Turn" exercise by fitting a Decision Tree with `max_depth=3`, achieving a Precision@50 score of **0.720**.
    - Executed **`scripts/run_all.py`** successfully. Generated all charts, a markdown report, and the final PDF report.
 
-4. **Added Task Tracking**:
+4. **Framed ML Research Question**:
+   - Path: [w01_research_question.ipynb](file:///c:/Users/hussa/Desktop/ml/work/notebooks/w01_research_question.ipynb)
+   - Formulated the provisional lane selection (**Lane 2: Refresh / Content Opportunity Scoring**), the decision/action to improve (helping content editors schedule updates), the costs of errors (wasted hours vs. missed drop-offs), and the statistical validation for why ML is needed.
+   - Loaded the starter dataset and computed key metrics confirming the choice (Decline rate of **54.21%**, overall visibility risk of **51.27%**, and counter-intuitive fresh vs stale decline rate showing time-since-update rules miss most targets).
+
+5. **Added Task Tracking**:
    - Path: [task.md](file:///c:/Users/hussa/Desktop/ml/task.md)
    - Completed all tasks in the track.
 
@@ -39,17 +44,13 @@ This walkthrough summarizes the work completed for Phase FL-01 (Setup).
 | **Both notebooks executed top-to-bottom** | Yes | Outputs are fully populated and saved in the JSON of both `.ipynb` files. |
 | **At least one 'your turn' cell completed** | Yes | Solutions written and evaluated for both notebooks. |
 | **Pipeline runs cleanly locally** | Yes | Verified by running `python scripts/run_all.py` in the workspace. |
+| **Provisional Lane selected & framed** | Yes | Selected **Lane 2 (Refresh Scoring)** in `w01_research_question.ipynb`. |
+| **At least 2 metrics computed from data** | Yes | Overall decline (54.21%), visibility at risk (51.27%), and stale decline (47.13%). |
+| **No client names / private data exposed** | Yes | Checked all cells. All outputs reference scrambled ids only. |
 
 ---
 
 ## Action Items for the User
 
 To finalize the deliverable presentation:
-1. Open your Claude Project workspace settings.
-2. Take screenshots of:
-   - Your Claude Project custom instructions (Tutor settings).
-   - Your configured project list in Claude showing the sitemap pressure-test prompt.
-3. Save the screenshots in `c:\Users\hussa\Desktop\ml\` as:
-   - `claude_project_screenshot.png` (renders in `workflow_audit.md`)
-   - `claude_sitemap_screenshot.png` (renders in `portfolio_sitemap.md`)
-4. The screenshots will automatically render inside the respective documents.
+1. Run `git push origin main` in your terminal to push the latest commit containing the completed `w01_research_question.ipynb` notebook and tracking files.

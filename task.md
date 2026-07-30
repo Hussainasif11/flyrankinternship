@@ -24,3 +24,9 @@
   - [x] Execute `notebooks/02_your_first_readable_model.ipynb` and resolve exercise
   - [x] Run scripts/run_all.py to verify
   - [x] Save executed notebooks with outputs
+- [x] Frame ML Research Question (FL-02 / Week 1)
+  - [x] Select provisional lane ("Refresh / Content Opportunity Scoring")
+  - [x] Document the research question, decision, action, and cost of wrong call
+  - [x] Query and calculate 3 data metrics to support the lane choice
+  - [x] Define careful language claims
+  - [x] Populate and run work/notebooks/w01_research_question.ipynb top-to-bottom
