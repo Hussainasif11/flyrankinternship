@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search Intelligence — ML Research</title>
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #ffffff;
+    color: #202124;
+    line-height: 1.7;
+}
+
+.container {
+    width: min(920px, 92%);
+    margin: auto;
+}
+
+header {
+    border-bottom: 1px solid #d9d9d9;
+    padding: 55px 0 40px;
+}
+
+.eyebrow {
+    font-size: 14px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 15px;
+}
+
+h1 {
+    font-size: 42px;
+    line-height: 1.15;
+    font-weight: 600;
+    margin: 0 0 18px;
+    color: #171717;
+}
+
+.subtitle {
+    font-size: 19px;
+    color: #555;
+    max-width: 760px;
+}
+
+.meta {
+    margin-top: 25px;
+    font-size: 14px;
+    color: #666;
+}
+
+nav {
+    border-bottom: 1px solid #ddd;
+    padding: 14px 0;
+    font-size: 14px;
+}
+
+nav a {
+    color: #444;
+    text-decoration: none;
+    margin-right: 22px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+section {
+    padding: 45px 0;
+    border-bottom: 1px solid #e3e3e3;
+}
+
+h2 {
+    font-size: 27px;
+    font-weight: 600;
+    margin: 0 0 20px;
+    color: #171717;
+}
+
+h3 {
+    font-size: 19px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+p {
+    margin: 0 0 16px;
+}
+
+.abstract {
+    font-size: 17px;
+}
+
+.highlight {
+    border-left: 3px solid #333;
+    padding: 5px 0 5px 20px;
+    margin: 25px 0;
+    color: #444;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 15px;
+}
+
+th {
+    background: #f5f5f5;
+    font-weight: 600;
+    text-align: left;
+}
+
+th, td {
+    border: 1px solid #d8d8d8;
+    padding: 11px 13px;
+}
+
+ul {
+    padding-left: 22px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code {
+    background: #f6f6f6;
+    border: 1px solid #ddd;
+    padding: 16px;
+    font-family: Consolas, monospace;
+    font-size: 14px;
+    overflow-x: auto;
+}
+
+.result-number {
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.small {
+    font-size: 14px;
+    color: #666;
+}
+
+a {
+    color: #174a7e;
+}
+
+footer {
+    padding: 40px 0 60px;
+    font-size: 14px;
+    color: #666;
+}
+
+@media (max-width: 650px) {
+    h1 {
+        font-size: 32px;
+    }
+
+    .subtitle {
+        font-size: 17px;
+    }
+
+    nav a {
+        display: inline-block;
+        margin-bottom: 7px;
+    }
+
+    table {
+        font-size: 13px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="container">
+<div class="eyebrow">Machine Learning Research Project</div>
+<h1>Search Intelligence: Content Opportunity Scoring</h1>
+<p class="subtitle">
+A practical machine learning study for prioritizing content pages for human review using search-performance signals.
+</p>
+<p class="meta">
+FlyRank ML Internship · Search Intelligence · 2026
+</p>
+</div>
+</header>
+
+<nav>
+<div class="container">
+<a href="#abstract">Abstract</a>
+<a href="#problem">Problem</a>
+<a href="#data">Data</a>
+<a href="#methodology">Methodology</a>
+<a href="#results">Results</a>
+<a href="#limitations">Limitations</a>
+<a href="#recommendations">Recommendations</a>
+<a href="#reproducibility">Reproducibility</a>
+</div>
+</nav>
+
+<main class="container">
+
+<section id="abstract">
+<h2>Abstract</h2>
+
+<p class="abstract">
+This project investigates whether search-performance signals can be used to prioritize content pages for human review. The analysis uses the FlyRank internship warehouse and focuses on monthly content-level search data, with March 2026 used as the main working month. A rule-based baseline was compared with a Logistic Regression model using a validation design that was later strengthened by grouping observations by client. The Logistic Regression model produced an F1 score of 0.9444 on the Week-5 random split, compared with an F1 score of 1.000 for the Week-4 baseline, while the client-grouped validation produced an F1 score of 0.9432. The results are treated as measured decision-support evidence rather than proof of causal SEO impact, and the final output is a ranked review queue for human content decisions.
+</p>
+</section>
+
+<section id="problem">
+<h2>1. Introduction / Problem Statement</h2>
+
+<p>
+Content teams may have many pages that could potentially benefit from review, but reviewer time is limited. A simple priority system can help identify which pages deserve attention first.
+</p>
+
+<p>
+The research question for this project is:
+</p>
+
+<div class="highlight">
+Can search-performance signals be used to prioritize content pages for human review more consistently than a simple fixed rule?
+</div>
+
+<p>
+The intended decision is not to automatically edit or publish content. Instead, the system is designed to provide a ranked queue that helps a reviewer decide where to investigate first.
+</p>
+</section>
+
+<section id="data">
+<h2>2. Data</h2>
+
+<p>
+The project uses the public-safe FlyRank ML Internship dataset. The analysis works with content-level search-performance records and uses hashed identifiers rather than client or page names.
+</p>
+
+<h3>Working window</h3>
+
+<p>
+March 2026 was used as the main working month. A middle month was selected instead of the final warehouse month so that the final outcome window was not used while developing the analysis.
+</p>
+
+<h3>Fields used</h3>
+
+<table>
+<tr>
+<th>Field</th>
+<th>Purpose</th>
+</tr>
+<tr>
+<td>report_date</td>
+<td>Time context</td>
+</tr>
+<tr>
+<td>client_hash_id</td>
+<td>Grouping and validation</td>
+</tr>
+<tr>
+<td>content_hash_id</td>
+<td>Content-level unit</td>
+</tr>
+<tr>
+<td>gsc_impressions</td>
+<td>Search visibility signal</td>
+</tr>
+<tr>
+<td>gsc_clicks</td>
+<td>Search click signal</td>
+</tr>
+<tr>
+<td>gsc_avg_position</td>
+<td>Search position signal</td>
+</tr>
+</table>
+
+<p>
+Rows without the required search data availability were excluded from the main search-signal analysis. Private client names, domains, credentials, raw exports and private queries were not included in the research artifact.
+</p>
+</section>
+
+<section id="methodology">
+<h2>3. Methodology</h2>
+
+<h3>Unit of analysis</h3>
+
+<p>
+One row represents one content page observation for a reporting period. The analysis focuses on content-level search-performance signals.
+</p>
+
+<h3>Baseline</h3>
+
+<p>
+The Week-4 baseline is a simple rule-based prioritization system. It uses observable search signals to assign a priority score, reason code and action label.
+</p>
+
+<h3>Model</h3>
+
+<p>
+Logistic Regression was selected as the first machine learning model because it is simple, fast and interpretable. The purpose was not to maximize complexity but to test whether a trained model could provide useful performance relative to the baseline.
+</p>
+
+<h3>Validation</h3>
+
+<p>
+The initial Week-5 experiment used a stratified random train/test split. Week 6 then repeated the evaluation using a client-grouped split so that observations from the same client were not mixed across training and evaluation sets.
+</p>
+
+<table>
+<tr>
+<th>Validation design</th>
+<th>F1</th>
+</tr>
+<tr>
+<td>Week-5 random split</td>
+<td>0.944424</td>
+</tr>
+<tr>
+<td>Week-6 client-grouped split</td>
+<td>0.943178</td>
+</tr>
+</table>
+
+<h3>Leakage checks</h3>
+
+<p>
+Features were reviewed for information that would only become available after the decision point. Label-derived fields and future-window information were excluded from model inputs.
+</p>
+</section>
+
+<section id="results">
+<h2>4. Results</h2>
+
+<p>
+The Week-5 model achieved an accuracy of 0.8972, precision of 0.9050, recall of 0.9875 and F1 of 0.9444 on its evaluation split.
+</p>
+
+<table>
+<tr>
+<th>Approach</th>
+<th>F1</th>
+</tr>
+<tr>
+<td>Week-4 rule-based baseline</td>
+<td>1.0000</td>
+</tr>
+<tr>
+<td>Week-5 Logistic Regression</td>
+<td>0.9444</td>
+</tr>
+</table>
+
+<p>
+The baseline therefore remained stronger on the original metric. This is an important result rather than a failure: the model did not demonstrate that additional model complexity improved the existing decision rule.
+</p>
+
+<p>
+Under client-grouped validation, the Logistic Regression F1 was 0.9432. The relatively small difference between the random and grouped results provides useful evidence that the measured model performance was not entirely dependent on mixing observations from the same client across the split.
+</p>
+
+<h3>Interpretation</h3>
+
+<p>
+The model showed strong recall, meaning that it identified a large proportion of the positive examples in the evaluation data. However, the baseline achieved a higher F1 score, so there is no evidence from this experiment that the Logistic Regression model should replace the baseline.
+</p>
+</section>
+
+<section id="limitations">
+<h2>5. Limitations & Honest Framing</h2>
+
+<ul>
+<li>The analysis does not establish that changing a page will cause better rankings or traffic.</li>
+<li>The model score should not be interpreted as a guaranteed content opportunity.</li>
+<li>The current analysis does not directly measure content quality or search intent.</li>
+<li>Business importance is not fully represented by the available search signals.</li>
+<li>The baseline and model were evaluated on a specific experimental setup and should be rechecked on new data.</li>
+<li>Search performance can change because of factors outside the content itself.</li>
+</ul>
+
+<p>
+The findings should therefore be described as observed and measured relationships that can support human review. They should not be presented as causal evidence about Google's ranking system or as proof that a particular content change will improve performance.
+</p>
+</section>
+
+<section id="recommendations">
+<h2>6. Ranked Recommendations</h2>
+
+<p>
+The final action playbook converts search signals into a ranked review queue. The queue is intended to help reviewers focus their limited time on pages with measurable search signals.
+</p>
+
+<table>
+<tr>
+<th>Reason code</th>
+<th>Action</th>
+<th>Meaning</th>
+</tr>
+<tr>
+<td>LOW_CTR_OPPORTUNITY</td>
+<td>REVIEW_CTR</td>
+<td>Review title and search snippet where impressions are present but clicks are relatively low.</td>
+</tr>
+<tr>
+<td>LOW_POSITION</td>
+<td>REVIEW_CONTENT</td>
+<td>Review content and search intent where visibility exists but average position is relatively weak.</td>
+</tr>
+<tr>
+<td>HIGH_OPPORTUNITY</td>
+<td>MONITOR</td>
+<td>Keep the page on the monitoring list for human assessment.</td>
+</tr>
+</table>
+
+<h3>Human review</h3>
+
+<p>
+Every recommendation should be reviewed before a content change. The reviewer should consider search intent, factual accuracy, business importance, seasonality, brand risk and the expected effort of the proposed change.
+</p>
+
+<h3>What should not be automated</h3>
+
+<ul>
+<li>Publishing content changes automatically</li>
+<li>Deleting or redirecting pages automatically</li>
+<li>Changing legal or regulated content</li>
+<li>Changing important business claims without review</li>
+<li>Declaring a page to be "bad"</li>
+<li>Guaranteeing an SEO outcome from a recommendation</li>
+</ul>
+</section>
+
+<section id="reproducibility">
+<h2>7. Reproducibility</h2>
+
+<p>
+The project notebooks document the progression from task framing through data validation, baseline construction, modeling, validation audit and the final action playbook.
+</p>
+
+<table>
+<tr>
+<th>Artifact</th>
+<th>Purpose</th>
+</tr>
+<tr>
+<td>w02_ml_task_framing.ipynb</td>
+<td>ML task and target framing</td>
+</tr>
+<tr>
+<td>w03_data_contract.ipynb</td>
+<td>Data contract and feature checks</td>
+</tr>
+<tr>
+<td>w04_baseline_score.ipynb</td>
+<td>Rule-based baseline</td>
+</tr>
+<tr>
+<td>w05_model.ipynb</td>
+<td>Logistic Regression model</td>
+</tr>
+<tr>
+<td>w06_validation_audit.ipynb</td>
+<td>Grouped validation and leakage audit</td>
+</tr>
+<tr>
+<td>w07_action_playbook.ipynb</td>
+<td>Ranked content action playbook</td>
+</tr>
+<tr>
+<td>capstone.ipynb</td>
+<td>Final research artifact</td>
+</tr>
+</table>
+
+<p>
+Source repository:
+<a href="https://github.com/Hussainasif11/flyrankinternship" target="_blank">
+GitHub repository
+</a>
+</p>
+</section>
+
+<section>
+<h2>8. Acknowledgments & Data Credit</h2>
+
+<p>
+Built on the FlyRank ML Internship dataset.
+</p>
+
+<p>
+Data source:
+<a href="https://flyrank.ai" target="_blank">FlyRank</a>
+</p>
+
+<p>
+This project was completed as part of the FlyRank ML Internship track and uses the internship warehouse for educational research and model-development purposes.
+</p>
+</section>
+
+<section>
+<h2>9. Closing Summary</h2>
+
+<p>
+This project demonstrates a complete small-scale ML workflow: framing a decision, checking the data, building a rule-based baseline, training a simple model, validating it under a stronger split, checking for leakage, and translating the output into human-reviewed recommendations.
+</p>
+
+<p>
+The main result is deliberately modest. The Logistic Regression model produced useful measured performance, but it did not beat the existing baseline on F1. The resulting playbook is therefore best treated as a decision-support tool and a starting point for further validation rather than an automated content optimization system.
+</p>
+</section>
+
+</main>
+
+<footer>
+<div class="container">
+<p>Search Intelligence Research Project · FlyRank ML Internship</p>
+<p>Public-safe research artifact · 2026</p>
+</div>
+</footer>
+
+</body>
+</html>
